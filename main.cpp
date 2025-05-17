@@ -18,48 +18,31 @@ void drukujOrganizm(const Organizm& o) {
          << o.paczkujacy() << endl << endl;
 }
 
+void wyswietl(UstawieniaSymulacji& UST)
+{
+
+    cout << "Znak glon:" << UST.znakGlon
+         << " zycieMin=" << UST.glonZycieMin
+         << " zycieMax=" << UST.glonZycieMax << endl;
+}
 
 
 int main() {
+    // 1. Dostęp do obiektu klasy UstawieniaSymulacji
+    UstawieniaSymulacji& UST1 = UstawieniaSymulacji::pobierzUstawienia();
+    UstawieniaSymulacji& UST2 = UstawieniaSymulacji::pobierzUstawienia();
+    UstawieniaSymulacji& UST3 = UstawieniaSymulacji::pobierzUstawienia();
 
+    cout << "Pobranie ustawien 3x" << endl;
+    cout << "UST1: "; wyswietl(UST1);
+    cout << "UST2: "; wyswietl(UST2);
+    cout << "UST3: "; wyswietl(UST3);
 
-    Organizm organizm1(8, 3, 2);
-    Organizm organizm2 = organizm1;
-    Organizm organizm3(organizm1);
-    cout << "Wynik testu kreacji obiektow:" << endl << endl;
-    cout << "Organizm1:" << endl;
-    drukujOrganizm(organizm1);
-    cout << "Organizm2:" << endl;
-    drukujOrganizm(organizm2);
-    cout << "Organizm3:" << endl;
-    drukujOrganizm(organizm3);
-    organizm1.posilek();
-    organizm1.posilek();
-    organizm2.posilek();
-    organizm3.krokSymulacji();
-    cout << "Wynik testu niezaleznosci obiektow:" << endl << endl;
-    cout << "Organizm1:" << endl;
-    drukujOrganizm(organizm1);
-    cout << "Organizm2:" << endl;
-    drukujOrganizm(organizm2);
-    cout << "Organizm3:" << endl;
-    drukujOrganizm(organizm3);
-    Organizm organizm4(8, 3, 2);
-    cout << "Wynik testu symulacji:" << endl << endl;
-    cout << "Stan poczatkowy:" << endl;
-    drukujOrganizm(organizm4);
-    for (int i = 1; i <= 10; i++) {
-        organizm4.krokSymulacji();
-        if (organizm4.paczkujacy()) {
-            organizm4.potomek();  // Tworzenie potomka
-            cout << "---> Potomek" << endl;
-        } else {
-            organizm4.posilek();  // Jeśli nie, organizm dostaje posiłek
-        }
-        cout << "Po wykonaniu kroku symulacji: " << i << endl;
-        drukujOrganizm(organizm4);
-    }
-
+    cout << endl << "Zmiana wartosci tylko 1x" << endl;
+    UST2.glonZycieMax = 100;
+    cout << "UST1: "; wyswietl(UST1);
+    cout << "UST2: "; wyswietl(UST2);
+    cout << "UST3: "; wyswietl(UST3);
 
     return 0;
 }
