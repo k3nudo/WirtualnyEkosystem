@@ -1,41 +1,69 @@
 #include <iostream>
 #include "Organizm.h"
-#include "ustawienia.h"
 #include "generatorlosowy.h"
+#include "sasiedztwo.h"
+
 
 using namespace std;
 
+string nazwaRodzaju(RodzajMieszkanca rodzaj) {
+    switch (rodzaj) {
+        case GLON: return "GLON";
+        case GRZYB: return "GRZYB";
+        case BAKTERIA: return "BAKTERIA";
+        case PUSTKA: return "PUSTKA";
+        case SCIANA: return "SCIANA";
+        case TRUP: return "TRUP";
+        case NIEZNANE: return "NIEZNANE";
+    }
+}
+
+
 int main()
 {
-    cout << "Liczby losowe typu int:" << endl;
-    cout << " od 0 do 5: ";
-    for (int i = 0; i < 10; i++)
-        cout << GEN::losujOdZeraDo(5) << " ";
+    sasiedztwo sasiedztwo;
 
-    cout << endl << " od 0 do 3: ";
-    for (int i = 0; i < 10; i++)
-        cout << GEN::losujOdZeraDo(3) << " ";
+    sasiedztwo.okreslSasiada(P, GLON);
+    sasiedztwo.okreslSasiada(PG, GRZYB);
+    sasiedztwo.okreslSasiada(G, GRZYB);
+    sasiedztwo.okreslSasiada(LG, GLON);
+    sasiedztwo.okreslSasiada(L, BAKTERIA);
+    sasiedztwo.okreslSasiada(LD, BAKTERIA);
+    sasiedztwo.okreslSasiada(D, GLON);
+    sasiedztwo.okreslSasiada(PD, PUSTKA);
 
-    cout << endl << " od 0 do 20: ";
-    for (int i = 0; i < 10; i++)
-        cout << GEN::losujOdZeraDo(20) << " ";
+    cout << "Przeglad sasiedztwa:" << endl;
 
-    cout << endl << endl;
+    for(int i = 0; i < 8; i++) {
+        Polozenie p = static_cast<Polozenie>(i);
+        RodzajMieszkanca r = sasiedztwo.ktoJestSasiadem(p);
 
-    cout << "Liczby losowe typu long: " << endl;
-    cout << " od -2 do 2: ";
-    for (int i = 0; i < 10; i++)
-        cout << GEN::losujPomiedzy(-2L, 2L) << " ";
+        cout << "polozenie=" << p << " rodzaj=" << nazwaRodzaju(r) << endl;
+    }
 
-    cout << endl << endl
-         << "Liczby losowe typu unsigned short: " << endl;
-    cout << " od 2 do 6: ";
-    unsigned short min = 2, max = 6;
+    cout << endl << "Policzenie sasiadow okreslonego rodzaju:" << endl
+         << " glony=" << sasiedztwo.ile(GLON) << endl
+         << " grzyby=" << sasiedztwo.ile(GRZYB) << endl
+         << " trupy=" << sasiedztwo.ile(TRUP) << endl;
 
-    for (int i = 0; i < 10; i++)
-        cout << GEN::losujPomiedzy(max, min) << " ";
+    cout << endl << "Wylosowanie sasiada:" << endl
+         << " glon -> " << sasiedztwo.losujSasiada(GLON) << endl
+         << " pustka -> " << sasiedztwo.losujSasiada(PUSTKA) << endl
+         << " trup -> " << sasiedztwo.losujSasiada(TRUP) << endl;
 
-    cout << endl << endl;
+    long wiersz, kolumna;
+    cout << endl << "Zmiana indeksow [5][7] wg polozenia:" << endl;
+
+    for(int i = 0; i < 8; i++) {
+        Polozenie p = static_cast<Polozenie>(i);
+        wiersz = 5; kolumna = 7;
+
+        sasiedztwo::zmienIdeksyWgPolozenia(p, wiersz, kolumna);
+
+        cout << " polozenie: " << p << " ->[" << wiersz << "][" << kolumna << "]" << endl;
+    }
+
+    cout << endl;
 
     return 0;
 }
