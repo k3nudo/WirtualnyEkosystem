@@ -18,4 +18,5 @@ add_executable(untitled main.cpp
         sasiedztwo.h
         srodowisko.cpp
         srodowisko.h
-        ustawienia.h)
+        ustawienia.h
+        )
