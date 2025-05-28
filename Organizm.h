@@ -1,7 +1,7 @@
 
 #ifndef ORGANIZM_H
 #define ORGANIZM_H
-#include <sys/types.h>
+
 
 
 class Organizm {

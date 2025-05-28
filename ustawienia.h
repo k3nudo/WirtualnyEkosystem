@@ -5,7 +5,7 @@
 #ifndef USTAWIENIA_H
 #define USTAWIENIA_H
 
-#endif //USTAWIENIA_H
+
 
 enum RodzajMieszkanca {GLON,GRZYB,BAKTERIA,PUSTKA,SCIANA,TRUP,NIEZNANE};
 enum AkcjaMieszkanca {POTOMEK,POLOWANIE,ROZKLAD,NIC};
@@ -64,3 +64,6 @@ public:
         return ustawienia;
     }
 };
+
+
+#endif //USTAWIENIA_H
