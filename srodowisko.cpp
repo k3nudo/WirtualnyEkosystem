@@ -2,6 +2,9 @@
 // Created by student on 30.04.2025.
 //
 #include <iostream>
+#include <fstream>
+#include <sstream>
+#include "osobniki.h"
 
 #include "srodowisko.h"
 #include "nisza.h"
@@ -136,9 +139,9 @@ void srodowisko::wykonajKrokSymulacji()
         wykonajAkcje(indeks.wiersz, indeks.kolumna);
 }
 
-std::string srodowisko::doTekstu() const
+string srodowisko::doTekstu() const
 {
-    std::string tekst = "";
+    string tekst = "";
     char sep = UstawieniaSymulacji::pobierzUstawienia().znakSeparator;
 
     for(unsigned int w = 0; w < wiersze; w++) {
@@ -149,17 +152,64 @@ std::string srodowisko::doTekstu() const
         tekst += '\n';
     }
 
-    tekst += "\n Glony * : " + std::to_string(liczba(GLON))
-          + "\n Grzyby # : " + std::to_string(liczba(GRZYB))
-          + "\nBakterie @ : " + std::to_string(liczba(BAKTERIA))
-          + "\n Martwe + : " + std::to_string(liczba(TRUP))
+    tekst += "\n Glony * : " + to_string(liczba(GLON))
+          + "\n Grzyby # : " + to_string(liczba(GRZYB))
+          + "\nBakterie @ : " + to_string(liczba(BAKTERIA))
+          + "\n Martwe + : " + to_string(liczba(TRUP))
           + '\n';
 
     return tekst;
 }
 
-std::ostream &operator<<(std::ostream &strumien, const srodowisko &srodowisko)
+ostream &operator<<(ostream &strumien, const srodowisko &srodowisko)
 {
     strumien << srodowisko.doTekstu();
     return strumien;
+}
+
+srodowisko srodowisko::czytajZPliku(string nazwaPliku) {
+    ifstream plik(nazwaPliku);
+    stringstream tekst("");
+
+    if (plik) {
+        tekst << plik.rdbuf();
+        plik.close();
+    }
+
+    string zapis = tekst.str();
+    unsigned int wiersze = 0, kolumny = 0;
+    bool pierwszaLinia = true;
+
+    for (char c : zapis) {
+        if (c != '\n') {
+            if (pierwszaLinia && c != ' ') kolumny++;
+        } else {
+            pierwszaLinia = false;
+            wiersze++;
+        }
+    }
+
+    srodowisko srodowisko(wiersze, kolumny);
+
+    char glon = UstawieniaSymulacji::pobierzUstawienia().znakGlon;
+    char grzyb = UstawieniaSymulacji::pobierzUstawienia().znakGrzyb;
+    char bakteria = UstawieniaSymulacji::pobierzUstawienia().znakBakteria;
+    char pusta = UstawieniaSymulacji::pobierzUstawienia().znakPustaNisza;
+
+    char znak;
+    for (unsigned int w = 0; w < wiersze; w++) {
+        getline(tekst, zapis);
+        for (unsigned int k = 0; k < 2 * kolumny; k += 2) {
+            znak = k < zapis.size() ? zapis[k] : pusta;
+
+            if (znak == glon)
+                srodowisko.lokuj(new Glon(), w, k / 2);
+            else if (znak == grzyb)
+                srodowisko.lokuj(new Grzyb(), w, k / 2);
+            else if (znak == bakteria)
+                srodowisko.lokuj(new Bakteria(), w, k / 2);
+        }
+    }
+
+    return srodowisko;
 }
