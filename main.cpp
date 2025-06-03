@@ -22,13 +22,13 @@ int main()
 
     do {
         system("clear");
-        cout << "Krok symulacji: " << i << endl << endl
-             << ekoSystem.doTekstu() << endl;
-
+        cout << "Krok symulacji: " << i << endl;
+        cout << endl << ekoSystem << endl;
         cin.ignore(1);
-        ekoSystem.wykonajKrokSymulacji();
+        ekoSystem++;
         i++;
-    } while(i < 200 && !ekoSystem.martwy());
+    } while(i < 200 && !ekoSystem);
+
 
     cout << endl;
     return 0;
