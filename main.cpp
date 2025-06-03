@@ -5,34 +5,31 @@
 
 using namespace std;
 
+int main()
+{
+    srodowisko ekoSystem(8, 12);
 
-int main() {
-    Nisza nisza;
-    nisza.przyjmijLokatora(new Bakteria());
+    ekoSystem.lokuj(new Glon(), 0, 10);
+    ekoSystem.lokuj(new Glon(), 1, 10);
+    ekoSystem.lokuj(new Glon(), 1, 13);
+    ekoSystem.lokuj(new Glon(), 3, 10);
+    ekoSystem.lokuj(new Grzyb(), 1, 11);
+    ekoSystem.lokuj(new Grzyb(), 0, 0);
+    ekoSystem.lokuj(new Bakteria(), 3, 3);
+    ekoSystem.lokuj(new Bakteria(), 2, 6);
 
-    cout << "Kto w niszy: "
-            << nisza.ktoTuMieszka() << endl;
-    cout << "Czy zywy: "
-            << nisza.lokatorZywy() << endl;
+    unsigned long i = 0;
 
-    sasiedztwo sasiedztwo;
+    do {
+        system("clear");
+        cout << "Krok symulacji: " << i << endl << endl
+             << ekoSystem.doTekstu() << endl;
 
-    sasiedztwo.okreslSasiada(P, GLON);
-    sasiedztwo.okreslSasiada(PG, GRZYB);
-    sasiedztwo.okreslSasiada(G, GRZYB);
-    sasiedztwo.okreslSasiada(LG, GLON);
-    sasiedztwo.okreslSasiada(L, BAKTERIA);
-    sasiedztwo.okreslSasiada(LD, BAKTERIA);
-    sasiedztwo.okreslSasiada(D, GLON);
-    sasiedztwo.okreslSasiada(PD, PUSTKA);
+        cin.ignore(1);
+        ekoSystem.wykonajKrokSymulacji();
+        i++;
+    } while(i < 200 && !ekoSystem.martwy());
 
-    ZamiarMieszkanca zamiar = nisza.aktywujLokatora(sasiedztwo);
-
-    cout << "Akcja: " << zamiar.akcja << " gdzie: " << zamiar.gdzie << endl;
     cout << endl;
-
-    return 0;
-
-
     return 0;
 }
