@@ -7,6 +7,7 @@
 
 #include "sasiedztwo.h"
 #include "mieszkaniec.h"
+#include "srodowisko.h"
 
 
 class Nisza {
@@ -36,8 +37,6 @@ public:
     ZamiarMieszkanca aktywujLokatora(sasiedztwo sasiedztwo) {
         return lokator->wybierzAkcje(sasiedztwo);
     }
-
-private:
     Mieszkaniec* wypuscPotomka() {
         return lokator->dajPotomka();
     }
@@ -45,6 +44,8 @@ private:
     void przyjmijZdobycz(Mieszkaniec* ofiara) {
         lokator->przyjmijZdobycz(ofiara);
     }
+
+    friend void srodowisko::wykonajAkcje(unsigned int wiersz,unsigned int kolumna);
 };
 
 
