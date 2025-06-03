@@ -1,9 +1,9 @@
 //
 // Created by student on 30.04.2025.
 //
+#include <iostream>
 
 #include "srodowisko.h"
-
 #include "nisza.h"
 #include "generatorlosowy.h"
 #include "ustawienia.h"
@@ -156,4 +156,10 @@ std::string srodowisko::doTekstu() const
           + '\n';
 
     return tekst;
+}
+
+std::ostream &operator<<(std::ostream &strumien, const srodowisko &srodowisko)
+{
+    strumien << srodowisko.doTekstu();
+    return strumien;
 }
